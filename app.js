@@ -9,9 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 // Middleware
-app.use(cors({
-  origin: 'https://liadtech.lafkiri.com'
-})); // Cross-Origin Resource Sharing
+app.use(cors()); // Cross-Origin Resource Sharing
 app.use(express.json());
 
 // MongoDB Connection

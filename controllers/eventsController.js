@@ -33,18 +33,18 @@ const getEvent = catchAsync(async (req, res, next) => {
 
 // Create new event
 const createEvent = catchAsync(async (req, res, next) => {
-  const event = await Event.findById(req.params.id);
+  // console.log("createEvent ********* ");
 
-  if (!event) {
-    return next(new AppError(404, 'No event found with that ID'));
-  }
+  const newEvent = await Event.create(req.body);
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      event
-    }
-  });
+    console.log("req.body --> ", req.body);
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        event: newEvent
+      }
+    });
 });
 
 // Update event
