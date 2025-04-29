@@ -1,103 +1,84 @@
 const Event = require('../models/eventModel');
 const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
 // Get all events
-const getAllEvents = async (req, res, next) => {
-  try {
-    const events = await Event.find();
+const getAllEvents = catchAsync(async (req, res, next) => {
+  const events = await Event.find();
 
-    res.status(200).json({
-      status: 'success',
-      results: events.length,
-      data: {
-        events
-      }
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(200).json({
+    status: 'success',
+    results: events.length,
+    data: {
+      events
+    }
+  });
+});
 
 // Get single event
-const getEvent = async (req, res, next) => {
-  try {
-    const event = await Event.findById(req.params.id);
+const getEvent = catchAsync(async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
 
-    if (!event) {
-      return next(new AppError(404, 'No event found with that ID'));
-    }
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        event
-      }
-    });
-  } catch (error) {
-    next(error);
+  if (!event) {
+    return next(new AppError(404, 'No event found with that ID'));
   }
-};
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      event
+    }
+  });
+});
 
 // Create new event
-const createEvent = async (req, res, next) => {
-  console.log("createEvent ********* ");
+const createEvent = catchAsync(async (req, res, next) => {
+  const event = await Event.findById(req.params.id);
 
-  try {
-    const newEvent = await Event.create(req.body);
-
-    console.log("req.body --> ", req.body);
-
-    res.status(201).json({
-      status: 'success',
-      data: {
-        event: newEvent
-      }
-    });
-  } catch (error) {
-    next(error);
+  if (!event) {
+    return next(new AppError(404, 'No event found with that ID'));
   }
-};
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      event
+    }
+  });
+});
 
 // Update event
-const updateEvent = async (req, res, next) => {
-  try {
-    const event = await Event.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
+const updateEvent = catchAsync(async (req, res, next) => {
+  const event = await Event.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true
+  });
 
-    if (!event) {
-      return next(new AppError(404, 'No event found with that ID'));
-    }
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        event
-      }
-    });
-  } catch (error) {
-    next(error);
+  if (!event) {
+    return next(new AppError(404, 'No event found with that ID'));
   }
-};
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      event
+    }
+  });
+});
 
 // Delete event
-const deleteEvent = async (req, res, next) => {
-  try {
-    const event = await Event.findByIdAndDelete(req.params.id);
+const deleteEvent = catchAsync(async (req, res, next) => {
+  const event = await Event.findByIdAndDelete(req.params.id);
 
-    if (!event) {
-      return next(new AppError(404, 'No event found with that ID'));
-    }
-
-    res.status(204).json({
-      status: 'success',
-      data: null
-    });
-  } catch (error) {
-    next(error);
+  if (!event) {
+    return next(new AppError(404, 'No event found with that ID'));
   }
-};
+
+  res.status(204).json({
+    status: 'success',
+    data: null
+  });
+});
 
 module.exports = {
   getAllEvents,

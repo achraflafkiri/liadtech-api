@@ -1,14 +1,8 @@
-
 const mongoose = require("mongoose");
-// mongoose.set("strictQuery", true);
-// mongoose.set("strictPopulate", false);
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI, {
-            // useNewUrlParser: true,
-            // useUnifiedTopology: true,
-        });
+        await mongoose.connect(process.env.MONGODB_URI);
         console.log("DB connected ^-^");
     } catch (err) {
         console.error(`Error connecting to db: ${err.message}`);
